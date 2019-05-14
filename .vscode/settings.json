@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "wolf3d.h": "c",
+        "stdio.h": "c",
+        "get_next_line.h": "c"
+    }
+}

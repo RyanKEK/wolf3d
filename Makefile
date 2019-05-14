@@ -14,21 +14,22 @@ CC = gcc
 
 NAME = wolf3d
 
-SRC = main.c get_next_line.c events.c debug.c primitives.c ray_casting.c animation.c error.c texture_upload.c texturing.c
+SRC = src/main.c src/get_next_line.c src/events.c src/utils.c src/ray_casting.c src/animation.c src/error.c src/texture_upload.c src/texturing.c src/ray_casting2.c
 
-OBJ = main.o get_next_line.o events.o debug.o primitives.o ray_casting.o animation.o error.o texture_upload.o texturing.o
+OBJ = src/main.o src/get_next_line.o src/events.o src/utils.o src/ray_casting.o src/animation.o src/error.o src/texture_upload.o src/texturing.o src/ray_casting2.o
 
 CFLAGS = -Wall -Wextra -Werror -g -O2
 
 all: lib $(NAME)
 
-lib:
+lib: 
 	@$(MAKE) -C libft all
- $(NAME): $(OBJ)
-	$(CC) -o $(NAME) -I get_next_line.h -I wolf3d.h -I /usr/local/include -I libft/include *.o -L /usr/local/lib/ -lmlx -L libft/  -lft -framework OpenGL -framework AppKit
+
+ $(NAME):  $(OBJ) includes/*.h
+	$(CC) -o $(NAME) -I incudes/get_next_line.h -I includes/wolf3d.h -I /usr/local/include -I libft/include src/*.o -L /usr/local/lib/ -lmlx -L libft/  -lft -framework OpenGL -framework AppKit
 
 clean:
-	rm -f *.o
+	rm -f src/*.o
 
 fclean: clean
 	rm -f $(NAME)

@@ -10,18 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../includes/wolf3d.h"
+#define STEPX {err += dis.y; start.x += stepx;}
+#define STEPY {err += dis.x; start.y += stepy;}
 
-void    pixel_put(int x, int y, t_data data)
+void	pixel_put(int x, int y, t_data data)
 {
 	int index;
+
 	index = (x + y * WIDTH) * 4;
 	if (index < ((WIDTH - 1) + (HEIGHT - 1) * WIDTH) * 4 && index > 0)
 	{
-		data.img_data[index] = mlx_get_color_value(data.mlx_ptr, data.color.b);
-		data.img_data[index + 1] = mlx_get_color_value(data.mlx_ptr, data.color.g);
-		data.img_data[index + 2] = mlx_get_color_value(data.mlx_ptr, data.color.r);
+		data.img_data[index] = mlx_get_color_value(data.mlx_ptr,
+		data.color.b);
+		data.img_data[index + 1] = mlx_get_color_value(data.mlx_ptr,
+		data.color.g);
+		data.img_data[index + 2] = mlx_get_color_value(data.mlx_ptr,
+		data.color.r);
 	}
+}
+
+void	set_color(t_data *data, int r, int g, int b)
+{
+	data->color.r = r;
+	data->color.g = g;
+	data->color.b = b;
 }
 
 void	put_line(t_point start, t_point end, t_data data)
@@ -45,50 +58,61 @@ void	put_line(t_point start, t_point end, t_data data)
 			break ;
 		e2 = 2 * err;
 		if (e2 >= dis.y)
-		{
-			err += dis.y;
-			start.x += stepx;
-		}
+			STEPX;
 		if (e2 <= dis.x)
+			STEPY;
+	}
+}
+
+void	toggle_fog_and_night(int keycode, t_data *data)
+{
+	if (keycode == 37)
+	{
+		if (data->shadows)
+			data->shadows--;
+		else
 		{
-			err += dis.x;
-			start.y += stepy;
+			data->fog = 0;
+			data->shadows++;
+		}
+	}
+	else if (keycode == 3)
+	{
+		if (data->fog)
+			data->fog--;
+		else
+		{
+			data->shadows = 0;
+			data->fog++;
 		}
 	}
 }
 
-void    rect(t_point point, int width, int height, t_data data)
+void	crosshair(t_data *data)
 {
-	t_point tmp;
+	t_point start;
+	t_point end;
 
-	tmp = point;
-	tmp.x = point.x + width;
-	put_line(point, tmp, data);
-	point = tmp;
-	tmp.y = point.y + height;
-	put_line(point, tmp, data);
-	point = tmp;
-	tmp.x -= width;
-	put_line(point, tmp, data);
-	point = tmp;
-	tmp.y -= height;
-	put_line(point, tmp, data);
-}
-
-void    fill_rect(t_point point, int width, int height, t_data data)
-{
-	t_point fill_start;
-	t_point fill_end;
-
-	rect(point, width, height, data);
-	fill_start.x = point.x + 1;
-	fill_end.x = point.x + width - 1;
-	fill_start.y = point.y;
-	fill_end.y = point.y;
-	while (fill_start.y <= point.y + height)
+	set_color(data, 0, 0, 0);
+	start.x = WIDTH / 2 - 15;
+	start.y = HEIGHT / 2 - 1;
+	end.x = WIDTH / 2 + 15;
+	end.y = start.y;
+	while (start.y < HEIGHT / 2 + 2)
 	{
-		put_line(fill_start, fill_end, data);
-		fill_start.y++;
-		fill_end.y++;
+		put_line(start, end, *data);
+		start.y++;
+		end.y++;
 	}
+	start.x = WIDTH / 2 - 1;
+	start.y = HEIGHT / 2 - 15;
+	end.x = start.x;
+	end.y = HEIGHT / 2 + 15;
+	while (start.x < WIDTH / 2 + 2)
+	{
+		put_line(start, end, *data);
+		start.x++;
+		end.x++;
+	}
+	set_color(data, 255, 255, 255);
 }
