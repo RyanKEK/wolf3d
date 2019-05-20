@@ -18,7 +18,7 @@ SRC = src/main.c src/get_next_line.c src/events.c src/utils.c src/ray_casting.c 
 
 OBJ = src/main.o src/get_next_line.o src/events.o src/utils.o src/ray_casting.o src/animation.o src/error.o src/texture_upload.o src/texturing.o src/ray_casting2.o
 
-CFLAGS = -Wall -Wextra -Werror -g -O2
+CFLAGS = -Wall -Wextra -Werror -O2
 
 all: lib $(NAME)
 
