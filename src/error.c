@@ -42,11 +42,13 @@ void	create_map(char **av, int fd, t_data *data)
 	char	*line;
 	size_t	cols;
 	int		i;
+	int		j;
 
 	i = -1;
 	count_rows(data, av);
 	while (get_next_line(fd, &line) > 0)
 	{
+		j = -1;
 		cols = ft_strlen(line);
 		if ((int)cols > data->map_cols)
 			data->map_cols = (int)cols;
@@ -70,7 +72,7 @@ void	check_map(t_data *data)
 	while (++i < data->map_rows)
 	{
 		j = -1;
-		while (++j < data->map_cols)
+		while (data->map[i][++j])
 		{
 			if (data->map[i][j] == '0' && ((i == 0 || i == data->map_rows - 1)
 			|| (j >= previous_len) || (j == 0)))
@@ -78,7 +80,7 @@ void	check_map(t_data *data)
 			else if (data->map[i][j] == '0')
 				empty_cell++;
 		}
-		previous_len = j;
+		previous_len = j - 1;
 	}
 	if (!empty_cell)
 		error_message("Unfortunately, this map has no empty cells!\n");

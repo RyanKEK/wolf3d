@@ -30,13 +30,6 @@ void	pixel_put(int x, int y, t_data data)
 	}
 }
 
-void	set_color(t_data *data, int r, int g, int b)
-{
-	data->color.r = r;
-	data->color.g = g;
-	data->color.b = b;
-}
-
 void	put_line(t_point start, t_point end, t_data data)
 {
 	t_point	dis;
@@ -62,6 +55,28 @@ void	put_line(t_point start, t_point end, t_data data)
 		if (e2 <= dis.x)
 			STEPY;
 	}
+}
+
+int		is_valid_tx_index(t_data *data, t_fpoint intersec)
+{
+	if (data->textures > 0 && data->map[(int)intersec.y
+	/ data->cell][(int)intersec.x / data->cell] - 49 < data->textures
+	&& data->map[(int)intersec.y
+	/ data->cell][(int)intersec.x / data->cell] > 47
+	&& data->map[(int)intersec.y
+	/ data->cell][(int)intersec.x / data->cell] < 58)
+		return (1);
+	else if (data->textures > 0 && (data->map[(int)intersec.y
+	/ data->cell][(int)intersec.x / data->cell] > 57
+	|| data->map[(int)intersec.y
+	/ data->cell][(int)intersec.x / data->cell] < 48)
+	&& data->map[(int)intersec.y
+	/ data->cell][(int)intersec.x / data->cell] != 'a')
+	{
+		data->map[(int)intersec.y
+		/ data->cell][(int)intersec.x / data->cell] = '1';
+	}
+	return (0);
 }
 
 void	toggle_fog_and_night(int keycode, t_data *data)
@@ -93,7 +108,6 @@ void	crosshair(t_data *data)
 	t_point start;
 	t_point end;
 
-	set_color(data, 0, 0, 0);
 	start.x = WIDTH / 2 - 15;
 	start.y = HEIGHT / 2 - 1;
 	end.x = WIDTH / 2 + 15;
@@ -114,5 +128,4 @@ void	crosshair(t_data *data)
 		start.x++;
 		end.x++;
 	}
-	set_color(data, 255, 255, 255);
 }

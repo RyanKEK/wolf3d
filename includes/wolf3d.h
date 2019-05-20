@@ -12,8 +12,8 @@
 
 #ifndef WOLF3D_H
 # define WOLF3D_H
-# define WIDTH 900
-# define HEIGHT 600
+# define WIDTH 1200
+# define HEIGHT 900
 # include <stdio.h>
 # include "../libft/includes/libft.h"
 # include <mlx.h>
@@ -24,6 +24,7 @@
 # include <sys/stat.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <pthread.h>
 # define RAD 0.0174533
 
 typedef struct	s_point
@@ -58,7 +59,6 @@ typedef struct	s_line
 	t_point		start;
 	t_point		end;
 }				t_line;
-
 typedef struct	s_data
 {
 	void		*mlx_ptr;
@@ -109,7 +109,15 @@ typedef struct	s_data
 	double		height;
 	double		hlen;
 	double		vlen;
+	int			spleet_screen[8];
 }				t_data;
+
+typedef struct	s_splt_scrn
+{
+	int			start;
+	int			end;
+	t_data		*data;
+}				t_splt_scrn;
 
 int				get_next_line(const int fd, char **line);
 int				motion_hook(int x, int y, void *param);
@@ -119,7 +127,6 @@ void			crosshair(t_data *data);
 void			put_line(t_point start, t_point end, t_data data);
 void			set_color(t_data *data, int r, int g, int b);
 int				mouse_hook(int button, int x, int y, void *param);
-void			ray_casting(t_data *data);
 void			crt_animation(t_data *data);
 void			animation_tex(int start, int end, int tx, t_data *data);
 void			is_error(int ac, char **av, t_data *data);
@@ -136,5 +143,8 @@ void			define_h(t_data *data, t_fpoint v, t_fpoint h);
 void			critical_angles(t_fpoint *horiz, t_fpoint *vert, t_data *data);
 void			apply_weather(t_data *data, int index,
 								int color, double intensity);
+void			threads_creation(t_data *data);
+void			ray_casting(t_data *data);
+int				is_valid_tx_index(t_data *data, t_fpoint intersec);
 
 #endif

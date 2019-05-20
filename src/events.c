@@ -39,16 +39,6 @@ int		motion_hook(int x, int y, void *param)
 
 void	movement(t_data *data, int keycode)
 {
-	if (keycode == 123)
-	{
-		data->px = (int)(data->speed * cos((data->pov - 90) * RAD)) + data->px;
-		data->py = (int)(data->speed * sin((data->pov - 90) * RAD)) + data->py;
-	}
-	else if (keycode == 124)
-	{
-		data->px = (int)(data->speed * cos((data->pov + 90) * RAD)) + data->px;
-		data->py = (int)(data->speed * sin((data->pov + 90) * RAD)) + data->py;
-	}
 	if (keycode == 1 || keycode == 125)
 		data->speed = -data->speed;
 	if (data->map[((int)(data->speed * 2
@@ -74,17 +64,17 @@ int		key_hook(int keycode, void *param)
 		data->fov = 66;
 	else if (keycode == 257)
 	{
-		if (data->speed == data->cell / 6)
+		if (data->speed == data->cell / 8)
 			data->speed = data->cell / 3;
 		else
-			data->speed = data->cell / 6;
+			data->speed = data->cell / 8;
 	}
-	else if (keycode == 0)
+	else if (keycode == 0 || keycode == 123)
 		data->pov -= 5;
-	else if (keycode == 2)
+	else if (keycode == 2 || keycode == 124)
 		data->pov += 5;
-	else if (keycode == 123 || keycode == 124
-	|| keycode == 1 || keycode == 125 || keycode == 126 || keycode == 13)
+	else if (keycode == 1 || keycode == 125
+	|| keycode == 126 || keycode == 13)
 		movement(data, keycode);
 	else
 		toggle_fog_and_night(keycode, data);

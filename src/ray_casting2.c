@@ -40,9 +40,11 @@ void	define_h(t_data *data, t_fpoint v, t_fpoint h)
 	{
 		data->height = (double)data->cell / data->vlen
 		* ((WIDTH / 2.0) / tan((data->fov / 2.0) * RAD));
-		if (data->textures > 0)
+		if (is_valid_tx_index(data, v))
 			data->tx_index = data->map[(int)v.y
 			/ data->cell][(int)v.x / data->cell] - 49;
+		else if (data->textures > 0)
+			data->tx_index = 0;
 		else
 			compass_index(data, 'v');
 	}
@@ -50,9 +52,11 @@ void	define_h(t_data *data, t_fpoint v, t_fpoint h)
 	{
 		data->height = (double)data->cell / data->hlen
 		* ((WIDTH / 2.0) / tan((data->fov / 2.0) * RAD));
-		if (data->textures > 0)
+		if (is_valid_tx_index(data, h))
 			data->tx_index = data->map[(int)h.y
 			/ data->cell][(int)h.x / data->cell] - 49;
+		else if (data->textures > 0)
+			data->tx_index = 0;
 		else
 			compass_index(data, 'h');
 	}

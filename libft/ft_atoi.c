@@ -24,7 +24,10 @@ int						ft_atoi(const char *str)
 			|| *str == '\v' || *str == '\r' || *str == '\f')
 		str++;
 	if (*str == '-' || *str == '+')
-		SIGN
+	{
+		sign -= *str;
+		str++;
+	}
 	else
 		sign = 1;
 	while (*str > 47 && *str < 58)

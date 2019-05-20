@@ -22,17 +22,18 @@ CFLAGS = -Wall -Wextra -Werror -g -O2
 
 all: lib $(NAME)
 
-lib: 
+$(NAME):  $(OBJ) 
+	  $(CC) -o $(NAME) -I incudes/get_next_line.h -I includes/wolf3d.h -I /usr/local/include -I libft/include src/*.o -L /usr/local/lib/ -lmlx -L libft/  -lft -framework OpenGL -framework AppKit
+
+lib:
 	@$(MAKE) -C libft all
 
- $(NAME):  $(OBJ) includes/*.h
-	$(CC) -o $(NAME) -I incudes/get_next_line.h -I includes/wolf3d.h -I /usr/local/include -I libft/include src/*.o -L /usr/local/lib/ -lmlx -L libft/  -lft -framework OpenGL -framework AppKit
-
 clean:
-	rm -f src/*.o
+	@$(MAKE) -C libft clean
+	rm -f $(OBJ)
 
 fclean: clean
+	@$(MAKE) -C libft fclean
 	rm -f $(NAME)
 
 re: fclean all
-	$(MAKE) -C libft re

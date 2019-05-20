@@ -44,11 +44,10 @@ void	setup(t_data *data)
 	&bpp, &size_line, &endian);
 	data->int_data = (int *)data->img_data;
 	data->cell = 10000;
-	data->debug = 1;
 	data->pov = 45.0f;
 	data->fov = 66;
 	data->tx_index = 0;
-	data->speed = data->cell / 6;
+	data->speed = data->cell / 8;
 	data->floor_tex_w = 100.0;
 	data->floor_tex_h = 100.0;
 	data->shadows = 0;
@@ -65,7 +64,7 @@ void	find_empty_cell(t_data *data)
 	while (++i < data->map_rows)
 	{
 		j = -1;
-		while (++j < data->map_cols)
+		while (data->map[i][++j])
 			if (data->map[i][j] == '0')
 				break ;
 		if (data->map[i][j] == '0')
