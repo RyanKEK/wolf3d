@@ -6,7 +6,7 @@
 /*   By: ohavryle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:38:20 by ohavryle          #+#    #+#             */
-/*   Updated: 2019/04/08 14:38:22 by ohavryle         ###   ########.fr       */
+/*   Updated: 2019/05/21 13:46:49 by ohavryle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int		main(int ac, char **av)
 {
 	t_data data;
 
+	if (ft_strncmp(av[0], "./wolf3d", ft_strlen("./wolf3d")))
+		return (0);
 	is_error(ac, av, &data);
 	setup(&data);
 	crt_animation(&data);

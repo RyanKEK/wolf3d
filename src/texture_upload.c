@@ -14,30 +14,29 @@
 
 void	compass_facing(t_data *data)
 {
-	int bpp;
-	int endian;
-	int size_line;
-	int i;
+	int		bpp;
+	int		endian;
+	int		size_line;
+	int		i;
+	char	*texture;
 
 	i = -1;
 	data->tx_ptrs = malloc(sizeof(void*) * 4);
 	data->tx_datas = malloc(sizeof(int*) * 4);
-	data->tx_ptrs[0] = mlx_xpm_file_to_image(data->mlx_ptr,
-	"txs/dark_wolf_wall.xpm", &data->w[0], &data->h[0]);
-	data->tx_datas[0] = (int*)mlx_get_data_addr(data->tx_ptrs[0],
-	&bpp, &size_line, &endian);
-	data->tx_ptrs[1] = mlx_xpm_file_to_image(data->mlx_ptr,
-	"txs/wolf_wall.xpm", &data->w[1], &data->h[1]);
-	data->tx_datas[1] = (int*)mlx_get_data_addr(data->tx_ptrs[1],
-	&bpp, &size_line, &endian);
-	data->tx_ptrs[2] = mlx_xpm_file_to_image(data->mlx_ptr,
-	"txs/wolf_logo_dark.xpm", &data->w[2], &data->h[2]);
-	data->tx_datas[2] = (int*)mlx_get_data_addr(data->tx_ptrs[2],
-	&bpp, &size_line, &endian);
-	data->tx_ptrs[3] = mlx_xpm_file_to_image(data->mlx_ptr,
-	"txs/wolf_logo.xpm", &data->w[3], &data->h[3]);
-	data->tx_datas[3] = (int*)mlx_get_data_addr(data->tx_ptrs[3],
-	&bpp, &size_line, &endian);
+	texture = malloc(sizeof(char) * 6);
+	while (++i < 4)
+	{
+		ft_strncpy(texture, "txs/wall1\0", 10);
+		texture[8] = i + 49;
+		if (!(data->tx_ptrs[i] = mlx_xpm_file_to_image(data->mlx_ptr,
+		texture, &data->w[i], &data->h[i])))
+		{
+			ft_putstr("Looks like some walls textures are missing=(\n");
+			exit(42);
+		}
+		data->tx_datas[i] = (int*)mlx_get_data_addr(data->tx_ptrs[i],
+		&bpp, &size_line, &endian);
+	}
 }
 
 void	custom_textures(t_data *data, int txs, char **av, int ac)
