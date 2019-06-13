@@ -31,12 +31,13 @@ void	compass_facing(t_data *data)
 		if (!(data->tx_ptrs[i] = mlx_xpm_file_to_image(data->mlx_ptr,
 		texture, &data->w[i], &data->h[i])))
 		{
-			ft_putstr("Looks like some walls textures are missing=(\n");
+			ft_putstr("Looks like some wall textures are missing=(\n");
 			exit(42);
 		}
 		data->tx_datas[i] = (int*)mlx_get_data_addr(data->tx_ptrs[i],
 		&bpp, &size_line, &endian);
 	}
+	free(texture);
 }
 
 void	custom_textures(t_data *data, int txs, char **av, int ac)

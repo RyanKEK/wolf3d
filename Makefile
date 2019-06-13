@@ -18,14 +18,21 @@ SRC = src/main.c src/get_next_line.c src/events.c src/utils.c src/ray_casting.c 
 
 OBJ = src/main.o src/get_next_line.o src/events.o src/utils.o src/ray_casting.o src/animation.o src/error.o src/texture_upload.o src/texturing.o src/ray_casting2.o
 
+INC = includes/wolf3d.h includes/get_next_line.h
+
 CFLAGS = -Wall -Wextra -Werror -O2
+
+.PHONY : all re lib clean fclean
 
 all: lib $(NAME)
 
-$(NAME):  $(OBJ) 
-	  $(CC) -o $(NAME) -I incudes/get_next_line.h -I includes/wolf3d.h -I /usr/local/include -I libft/include src/*.o -L /usr/local/lib/ -lmlx -L libft/  -lft -framework OpenGL -framework AppKit
+$(NAME): $(OBJ) ./libft/libft.a 
+	$(CC) -o $(NAME) -I incudes/get_next_line.h -I includes/wolf3d.h -I /usr/local/include -I libft/include $(OBJ) -L /usr/local/lib/ -lmlx -L libft/  -lft -framework OpenGL -framework AppKit
 
-lib:
+./src/%.o: ./src/%.c $(INC)
+	$(CC) $(CFLAGS) -I includes/wolf3d.h -I includes/get_next_line.h -o  $@ -c $<
+
+lib: 
 	@$(MAKE) -C libft all
 
 clean:

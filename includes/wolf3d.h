@@ -12,7 +12,7 @@
 
 #ifndef WOLF3D_H
 # define WOLF3D_H
-# define WIDTH 1200
+# define WIDTH 1000
 # define HEIGHT 900
 # include <stdio.h>
 # include "../libft/includes/libft.h"
